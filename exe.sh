@@ -27,7 +27,7 @@ fi
 if [[ $chk_system > 0 ]]; then
     echo 'Restart httpd' && systemctl restart httpd && echo "...OK"
     echo 'Restart mysqld' && systemctl restart mysqld && echo "...OK"
-    echo 'Resatrt firewalld' && firewall-cmd --reload
+    echo 'Resatrt firewalld' && firewall-cmd --reload # firewall-cmd --add-port=80/tcp (or --add-service/http) --permanent
 fi
 
 echo '...Process Done'
