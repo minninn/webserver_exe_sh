@@ -1,13 +1,13 @@
 #!/bin/bash
 
-let chk_system=0
+let chk_system=1
 
 function daemon_status() {
     if [[ `systemctl status $1 | grep "Active:"` =~ "(running)" ]]; then
         echo "$1: active"
     else
         echo "$1: deactive"
-        let chk_system=chk_system+1
+        let chk_system=chk_system=0
     fi
 }
 
@@ -21,13 +21,13 @@ echo "Permit Ports: `firewall-cmd --list-ports`"
 echo ''
 
 if [[ `firewall-cmd --list-ports` != *80/tcp* ]] && [[ `firewall-cmd --list-services` != *http* ]]; then
-   let chk_system=chk_system+1
+   let chk_system=chk_system=0
 fi
 
-if [[ $chk_system > 0 ]]; then
+if [[ $chk_system = 0 ]]; then
     echo 'Restart httpd' && systemctl restart httpd && echo "...OK"
     echo 'Restart mysqld' && systemctl restart mysqld && echo "...OK"
-    echo 'Resatrt firewalld' && firewall-cmd --reload # firewall-cmd --add-port=80/tcp (or --add-service/http) --permanent
+    echo 'Resatrt firewalld' && firewall-cmd --reload
 fi
 
 echo '...Process Done'
