@@ -27,7 +27,7 @@ fi
 if [[ $chk_system = 0 ]]; then
     echo 'Restart httpd' && systemctl restart httpd && echo "...OK"
     echo 'Restart mysqld' && systemctl restart mysqld && echo "...OK"
-    echo 'Resatrt firewalld' && firewall-cmd --reload
+    echo 'Restart firewalld' && firewall-cmd --reload && firewall-cmd --add-service=http
 fi
 
 echo '...Process Done'
