@@ -25,9 +25,11 @@ if [[ `firewall-cmd --list-ports` != *80/tcp* ]] && [[ `firewall-cmd --list-serv
 fi
 
 if [[ $chk_system = 0 ]]; then
-    echo 'Restart httpd' && systemctl restart httpd && echo "...OK"
-    echo 'Restart mysqld' && systemctl restart mysqld && echo "...OK"
-    echo 'Restart firewalld' && firewall-cmd --reload && firewall-cmd --add-service=http
+    echo 'Restart httpd' && systemctl restart httpd && echo "success"
+    echo 'Restart mysqld' && systemctl restart mysqld && echo "success"
+    echo 'Add http service in firewalld' && firewall-cmd --add-service=http --permanent 2>/dev/null
+    echo 'Restart firewalld' && firewall-cmd --reload
+    echo ''
 fi
 
 echo '...Process Done'
